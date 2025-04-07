@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
+from tkinter.scrolledtext import ScrolledText
 
 filename = None
 
@@ -54,27 +55,19 @@ def exit_programm():
         root.destroy()
         root.quit()
 
-
-
-
-
-
-
-   
-
 root = Tk()
 root.title("Text Editor by Chix ")
 root.minsize(400, 400)
 root.maxsize(800, 600)
 
-text = Text(root, width=400, height=400)
+text = ScrolledText(root, width=400, height=400, bg="#1e1e1e", fg="#d4d4d4")
 text.pack()
 
-menubar = Menu(root)
+menubar = Menu(root, bg="#252526", fg="white")
 root.config(menu=menubar)
 
 #Меню FILE
-filemenu = Menu(menubar, tearoff=0)
+filemenu = Menu(menubar, tearoff=0, bg="#252526", fg="white")
 filemenu.add_command(label="New", command=newFile)
 filemenu.add_command(label="Open", command=openFile)
 filemenu.add_command(label="Save", command=saveFile)
@@ -90,6 +83,14 @@ themesmenu.add_command(label="Зеленый")
 
 menubar.add_cascade(label="File", menu=filemenu)
 menubar.add_cascade(label="Themes", menu=themesmenu)
+
+
+
+
+
+
+
+
 
 root.protocol("WM_DELETE_WINDOW", exit_programm)
 root.mainloop()
