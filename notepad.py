@@ -4,23 +4,26 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter.scrolledtext import ScrolledText
 
+
+
 filename = None
+
 
 #Функция создания нового файла
 def newFile():
     global filename
     filename = "Untitled"
-    t = text.get(0.0, END)
+    t = text.get(1.0, END)
     if messagebox.askyesnocancel("Notepad", "Хотите сохранить изменения?"):
         saveAs()
-    text.delete(0.0, END)
+    text.delete(1.0, END)
     
     
 
 #Функция сохранения файла
 def saveFile():
     global filename
-    t = text.get(0.0, END)
+    t = text.get(1.0, END)
     with open(filename, "w") as f:
         f.write(t)
     
@@ -29,7 +32,7 @@ def saveAs():
     f = filedialog.asksaveasfile(mode='w', defaultextension='.txt')
     if f is None:
         return
-    t = text.get(0.0, END)
+    t = text.get(1.0, END)
     
     try:
         f.write(t.rstrip())
@@ -42,8 +45,8 @@ def openFile():
     if f is None:
         return
     t = f.read()
-    text.delete(0.0, END)
-    text.insert(0.0, t)
+    text.delete(1.0, END)
+    text.insert(1.0, t)
     
 #Функция завершения программы
 def exit_programm():
@@ -60,8 +63,18 @@ root.title("Text Editor by Chix ")
 root.minsize(400, 400)
 root.maxsize(800, 600)
 
-text = ScrolledText(root, width=400, height=400, bg="#1e1e1e", fg="#d4d4d4")
-text.pack()
+#Панелька для нумерации
+numbers = Text(root, width=4, bg="#1e1e1e", state=DISABLED, relief=FLAT)
+numbers.grid(row=0, column=0, sticky="NS")
+
+scroll = Scrollbar(root)
+scroll.grid(row=0, column=2, sticky="NS")
+
+
+text = Text(root, width=400, height=400, bg="#1e1e1e", fg="#d4d4d4", wrap=None)
+text.grid(row=0, column=2, sticky="NSWE")
+
+#text.pack()
 
 menubar = Menu(root, bg="#252526", fg="white")
 root.config(menu=menubar)
@@ -88,8 +101,10 @@ menubar.add_cascade(label="Themes", menu=themesmenu)
 
 
 
-
-
+# Горячие клавиши
+root.bind("<Control-s>", lambda e: saveAs())
+root.bind("<Control-o>", lambda e: openFile())
+root.bind("<Control-z>", lambda e: text.edit_undo())
 
 
 root.protocol("WM_DELETE_WINDOW", exit_programm)
