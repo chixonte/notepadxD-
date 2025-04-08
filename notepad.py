@@ -12,6 +12,8 @@ def warning_save():
     t = text.get(1.0, END)
     if t.strip():
         response = messagebox.askyesnocancel("Notepad", "Хотите сохранить изменения?")
+        if response == False:
+            text.delete(1.0, END)
         if response == None:
             return
         elif response:
@@ -122,15 +124,15 @@ root.config(menu=menubar)
 filemenu = Menu(menubar, tearoff=0, bg="#252526", fg="white")
 filemenu.add_command(label="New", command=newFile, accelerator="Ctrl+N")
 filemenu.add_command(label="Open", command=openFile, accelerator="Ctrl+O")
-filemenu.add_command(label="Save", command=saveFile)
-filemenu.add_command(label="Save As...", command=saveAs)
+filemenu.add_command(label="Save", command=saveFile, accelerator="Ctrl+S")
+filemenu.add_command(label="Save As...", command=saveAs, accelerator="Ctrl+Shift+S")
 filemenu.add_separator()
-filemenu.add_command(label="Quit", command=exit_programm)
+filemenu.add_command(label="Quit", command=exit_programm, accelerator="Ctrl+Q")
 
 
 
 #Меню THEMES
-themesmenu = Menu(menubar, tearoff=0)
+themesmenu = Menu(menubar, tearoff=0, bg="#252526", fg="white")
 themesmenu.add_command(label="Зеленый")
 
 menubar.add_cascade(label="File", menu=filemenu)
@@ -141,7 +143,7 @@ menubar.add_cascade(label="Themes", menu=themesmenu)
 root.bind("<Control-s>", lambda e: saveAs())
 root.bind("<Control-o>", lambda e: openFile())
 root.bind("<Control-z>", lambda e: text.edit_undo())
-root.bind("<Control-n>", lambda e: newFile)
+root.bind("<Control-n>", lambda e: newFile())
 
 
 
