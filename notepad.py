@@ -8,15 +8,28 @@ from tkinter.scrolledtext import ScrolledText
 
 filename = None
 
+def warning_save():
+    t = text.get(1.0, END)
+    if t.strip():
+        response = messagebox.askyesnocancel("Notepad", "Хотите сохранить изменения?")
+        if response == None:
+            return
+        elif response:
+            saveAs()
 
 #Функция создания нового файла
 def newFile():
     global filename
     filename = "Untitled"
     t = text.get(1.0, END)
-    if messagebox.askyesnocancel("Notepad", "Хотите сохранить изменения?"):
-        saveAs()
+    if t.strip():
+        response = messagebox.askyesnocancel("Notepad", "Хотите сохранить изменения?")
+        if response == None:
+            return
+        elif response:
+            saveAs()
     text.delete(1.0, END)
+    filename = None
     
     
 
@@ -96,9 +109,6 @@ themesmenu.add_command(label="Зеленый")
 
 menubar.add_cascade(label="File", menu=filemenu)
 menubar.add_cascade(label="Themes", menu=themesmenu)
-
-
-
 
 
 # Горячие клавиши
